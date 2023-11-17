@@ -19,11 +19,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
   },
   "include": [
-    "src"
-, "src/components/dnd-kit/.ts"  ]
+    "src",
+  ]
 }
