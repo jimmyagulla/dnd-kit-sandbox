@@ -5,7 +5,9 @@ import { Quote } from '../types';
 const generateQuote = (id: number): Quote => {
   return {
     id,
-    // children: [],
+    children: Array(faker.number.int({ min: 1, max: 5 }))
+      .fill(null)
+      .map((_, i) => generateQuote(i)),
     designation: faker.lorem.words({ min: 1, max: 5 }),
     quantity: faker.number.int({ min: 1, max: 10 }),
     unity: faker.lorem.word(),
