@@ -8,7 +8,9 @@ const QuoteCard: FC<QuoteCardProps> = ({ quote }) => {
   return (
     <>
       <div className='quote-card'>
-        {quote.id.toString()}
+        <span>{quote.id.toString()}</span>
+        <span>{quote.designation}</span>
+        <span>{quote.quantity}</span>
       </div>
       {/* <div className='quote-actions-popover'>
         test

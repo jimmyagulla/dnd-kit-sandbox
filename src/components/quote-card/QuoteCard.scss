@@ -1,11 +1,12 @@
 .quote-card {
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
   height: 50px;
   width: 800px;
-  border: 1px solid #000;
+  // border: 1px solid #000;
   background-color: white;
+  gap: 20px;
 
   &:hover {
     z-index: 9999;
