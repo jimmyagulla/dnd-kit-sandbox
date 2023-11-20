@@ -5,14 +5,14 @@
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  gap: 20px;
 }
 
-.quote-content {
-  background-color: rgba(92, 92, 92, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  width: 400px;
+.dnd-sortable-tree_simple_tree-item {
+  background-color: white;
+  border: 0px !important;
+  padding: 0.5px !important;
+}
+
+.dnd-sortable-tree_simple_wrapper {
+  // padding: 0px !important;
 }

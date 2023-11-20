@@ -7,15 +7,13 @@ import { Quotation } from './components';
 function App() {
   const quotes: Quote[] = getQuotes();
 
-  console.log(quotes);
-
   return (
-    <>
+    <div className="App">
       <h1>
         Hello World
       </h1>
       <Quotation id={1} quotes={quotes} />
-    </>
+    </div>
   );
 }
 
