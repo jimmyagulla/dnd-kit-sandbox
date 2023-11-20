@@ -1,0 +1,18 @@
+.quote-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  gap: 20px;
+}
+
+.quote-content {
+  background-color: rgba(92, 92, 92, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 400px;
+}

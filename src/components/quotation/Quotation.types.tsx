@@ -11,7 +11,7 @@ export interface QuotationProps {
 export const QuotationPublicPropTypes = {
   id: PropTypesKey.isRequired,
   quotes: PropTypes.arrayOf(
-    PropTypes.exact(QuotePropTypes).isRequired
+    PropTypes.exact(QuotePropTypes).isRequired,
   ).isRequired,
 };
 

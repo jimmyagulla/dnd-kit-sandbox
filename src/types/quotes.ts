@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 
 import { PropTypesKey, Nullable} from ".";
 
-export interface Quote {
+export interface QuoteBase {
   id: Key;
-  children?: Nullable<Quote[]>;
   designation: string;
   quantity: number;
   unity: string;
@@ -13,16 +12,18 @@ export interface Quote {
   tva: number;
 };
 
+export interface Quote extends QuoteBase {
+  children?: Nullable<Quote[]>;
+};
+
 const QuotePropTypes = {
   id: PropTypesKey.isRequired,
-  children: PropTypes.arrayOf(PropTypes.shape({}).isRequired),
+  children: PropTypes.any.isRequired,
   designation: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired,
   unity: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   tva: PropTypes.number.isRequired,
 };
-
-QuotePropTypes.children = PropTypes.arrayOf(PropTypes.shape(QuotePropTypes).isRequired);
 
 export { QuotePropTypes };
