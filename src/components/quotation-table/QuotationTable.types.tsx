@@ -1,7 +1,7 @@
 import { Key, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
-import { Quote, QuotePropTypes } from '../../types';
+import { Nullable, Quote, QuotePropTypes } from '../../types';
 import { Table } from 'antd';
 
 export type EditableTableProps = Parameters<typeof Table>[0];
@@ -10,9 +10,6 @@ export type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 export interface QuotationTableProps {
   quotes: Quote[];
 };
-
-export type QuotationTableColumn =
-  ColumnTypes[number] & { editable?: boolean; dataIndex: string };
 
 export interface Item extends Quote {
   key: Key;
@@ -29,6 +26,8 @@ export interface EditableCellProps {
   children: ReactNode;
   save: (key: Key) => void;
   cancel: () => void;
+  editingDataIndex: Nullable<keyof Item>;
+  setEditingDataIndex: (dataIndex: string) => void;
 }
 
 export interface EditableRowProps {

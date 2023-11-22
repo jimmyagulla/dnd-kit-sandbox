@@ -1,7 +1,7 @@
 import './QuotationTable.scss';
 
-import { FC, Key, useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Table } from 'antd';
+import { FC, Key, RefObject, useEffect, useRef, useState } from 'react';
+import { Form, Input, InputNumber, InputRef, Table } from 'antd';
 
 import {
   QuotationTableProps,
@@ -9,7 +9,7 @@ import {
   EditableCellProps,
   Item,
 } from '.';
-import { Quote } from '../../types';
+import { Nullable, Quote } from '../../types';
 
 export const addQuotesKeys = (quotes: Quote[]): Item[] => {
   return quotes.map(quote => ({
@@ -19,7 +19,7 @@ export const addQuotesKeys = (quotes: Quote[]): Item[] => {
   }));
 }
 
-const EditableCell: React.FC<EditableCellProps> = ({
+const EditableCell: FC<EditableCellProps> = ({
   edit,
   editing,
   dataIndex,
@@ -30,9 +30,20 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   save,
   cancel,
+  editingDataIndex,
+  setEditingDataIndex,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  const inputRef = useRef<InputRef>(null);
+  const inputNode = inputType === 'number'
+    ? <InputNumber ref={inputRef as unknown as RefObject<HTMLInputElement>} />
+    : <Input ref={inputRef} />;
+
+  useEffect(() => {
+    if (editing && dataIndex === editingDataIndex) {
+      inputRef.current?.focus();
+    }
+  }, [editing, dataIndex, editingDataIndex]);
 
   useEffect(() => {
     if (!editing) return;
@@ -55,8 +66,13 @@ const EditableCell: React.FC<EditableCellProps> = ({
     }
   }, [cancel, editing, record, save]);
 
+  const handleRowClick = () => {
+    setEditingDataIndex(dataIndex);
+    edit(record);
+  };
+
   return (
-    <td {...restProps} onClick={() => edit(record)}>
+    <td {...restProps} onClick={handleRowClick}>
       {editing ? (
         <Form.Item
           name={dataIndex}
@@ -81,6 +97,7 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState<Item[]>(addQuotesKeys(quotes));
   const [editingKey, setEditingKey] = useState('');
+  const [editingDataIndex, setEditingDataIndex] = useState<Nullable<keyof Item>>(null);
 
   const isEditing = (record: Item) => record.key === editingKey;
 
@@ -93,7 +110,7 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
     setEditingKey('');
   };
 
-  const save = async (key: React.Key) => {
+  const save = async (key: Key) => {
     try {
       const row = (await form.validateFields()) as Item;
 
@@ -107,10 +124,12 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
         });
         setData(newData);
         setEditingKey('');
+        setEditingDataIndex(null);
       } else {
         newData.push(row);
         setData(newData);
         setEditingKey('');
+        setEditingDataIndex(null);
       }
     } catch (errInfo) {
       console.error('Validate Failed:', errInfo);
@@ -153,6 +172,8 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
         cancel: cancel,
         edit: edit,
         save: save,
+        editingDataIndex: editingDataIndex,
+        setEditingDataIndex: setEditingDataIndex,
       }),
     };
   });
