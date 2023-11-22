@@ -144,7 +144,7 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
     {
       title: 'Niv',
       dataIndex: 'id',
-      width: '5%',
+      width: '6%',
     },
     {
       title: 'Désignation',
