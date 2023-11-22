@@ -20,6 +20,7 @@ export const addQuotesKeys = (quotes: Quote[]): Item[] => {
 }
 
 const EditableCell: FC<EditableCellProps> = ({
+  editable,
   edit,
   editing,
   dataIndex,
@@ -67,6 +68,8 @@ const EditableCell: FC<EditableCellProps> = ({
   }, [cancel, editing, record, save]);
 
   const handleRowClick = () => {
+    if (!editable) return;
+
     setEditingDataIndex(dataIndex);
     edit(record);
   };
@@ -140,21 +143,39 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
     {
       title: 'Niv',
       dataIndex: 'id',
-      width: '25%',
-      editable: true,
+      width: '5%',
     },
     {
       title: 'Désignation',
       dataIndex: 'designation',
-      width: '50%',
+      width: '40%',
       editable: true,
     },
     {
       title: 'Quantité',
       dataIndex: 'quantity',
-      width: '25%',
+      width: '5%',
+      editable: true,
+      inputType: 'number',
+    },
+    {
+      title: 'Unité',
+      dataIndex: 'unit',
+      width: '5%',
       editable: true,
     },
+    {
+      title: 'Total',
+      dataIndex: 'total',
+      width: '10%',
+    },
+    {
+      title: 'TVA',
+      dataIndex: 'tva',
+      width: '5%',
+      editable: true,
+      inputType: 'number',
+    }
   ];
 
   const mergedColumns = columns.map((col) => {
@@ -164,10 +185,8 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
     return {
       ...col,
       onCell: (record: Item) => ({
+        ...col,
         record,
-        inputType: col.dataIndex === 'age' ? 'number' : 'text',
-        dataIndex: col.dataIndex,
-        title: col.title,
         editing: isEditing(record),
         cancel: cancel,
         edit: edit,

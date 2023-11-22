@@ -16,6 +16,7 @@ export interface Item extends Quote {
 };
 
 export interface EditableCellProps {
+  editable: boolean;
   edit: (record: Partial<Item> & { key: Key}) => void;
   editing: boolean;
   dataIndex: string;
