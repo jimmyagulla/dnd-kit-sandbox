@@ -7,13 +7,18 @@ export interface QuoteBase {
   id: Key;
   designation: string;
   quantity: number;
-  unity: string;
+  unit: string;
   total: number;
   tva: number;
 };
 
+
 export interface Quote extends QuoteBase {
   children?: Nullable<Quote[]>;
+};
+
+export interface QuoteWithKey extends Quote {
+  key: Key;
 };
 
 const QuotePropTypes = {
@@ -21,7 +26,7 @@ const QuotePropTypes = {
   children: PropTypes.any.isRequired,
   designation: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired,
-  unity: PropTypes.string.isRequired,
+  unit: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   tva: PropTypes.number.isRequired,
 };

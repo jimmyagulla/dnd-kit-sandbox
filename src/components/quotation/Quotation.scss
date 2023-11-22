@@ -1,18 +1,17 @@
-.quote-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-}
-
 .dnd-sortable-tree_simple_tree-item {
   background-color: white;
-  // border: 0px !important;
-  // padding: 0.5px !important;
+  border: 1px solid #dedede;
+  padding: 0 !important;
+
+  // &::after {
+  //   border-bottom: 5px solid rgb(72, 172, 254) !important;
+  // }
 }
 
-.dnd-sortable-tree_simple_wrapper {
-  // padding: 0px !important;
+.quotes-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-right: 10%;
+  padding-left: 10%;
 }

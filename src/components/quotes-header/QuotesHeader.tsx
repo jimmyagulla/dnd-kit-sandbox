@@ -1,16 +1,15 @@
-import './QuoteCard.scss';
+import './QuotesHeader.scss';
 
 import { FC, useMemo } from 'react';
 
-import { QuoteCardProps, QuoteCardPropTypes } from '.';
-
+import { QuotesHeaderProps, QuotesHeaderPropTypes } from '.';
 import { getQuoteColumns, defaultQuoteColumnStyle } from '../../lib';
 
-const QuoteCard: FC<QuoteCardProps> = ({ quote }) => {
+const QuotesHeader: FC<QuotesHeaderProps> = () => {
   const quoteColumns = useMemo(() => getQuoteColumns(), []);
 
   return (
-    <div className='quote-card'>
+    <div className='quote-header'>
       {quoteColumns.map((column, index) => (
         <span
           key={index}
@@ -19,16 +18,15 @@ const QuoteCard: FC<QuoteCardProps> = ({ quote }) => {
             ...defaultQuoteColumnStyle,
           }}
         >
-          {quote[column.prop]?.toString()}
+          {column.label}
         </span>
-      
       ))}
     </div>
   );
 };
 
-QuoteCard.displayName = 'QuoteCard';
+QuotesHeader.displayName = 'QuotesHeader';
 
-QuoteCard.propTypes = QuoteCardPropTypes;
+QuotesHeader.propTypes = QuotesHeaderPropTypes;
 
-export default QuoteCard;
+export default QuotesHeader;

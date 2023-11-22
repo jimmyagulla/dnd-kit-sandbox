@@ -100,6 +100,7 @@ import { QuotationProps, QuotationPropTypes } from '.';
 import { Quote } from '../../types';
 import { convertQuotesToTreeItems } from '../../lib/_utils';
 import { QuoteCard } from '../quote-card';
+import { QuotesHeader } from '../quotes-header';
 
 const Quotation: FC<QuotationProps> = ({
   id,
@@ -131,19 +132,28 @@ const Quotation: FC<QuotationProps> = ({
     HTMLDivElement,
     TreeItemComponentProps<Quote>
   >((props, ref) => {
+    console.log('props: ', props);
     return (
-      <SimpleTreeItemWrapper {...props} ref={ref}>
+      <SimpleTreeItemWrapper {...props} showDragHandle={false} ref={ref} disableSorting>
         <QuoteCard quote={props.item} />
       </SimpleTreeItemWrapper>
     );
   });
 
   return (
-    <SortableTree
-      items={items || []}
-      onItemsChanged={onItemsChanged}
-      TreeItemComponent={TreeItem}
-    />
+    <div className='quotes-wrapper'>
+      <QuotesHeader />
+      <SortableTree
+        items={items || []}
+        onItemsChanged={onItemsChanged}
+        TreeItemComponent={TreeItem}
+        indentationWidth={0}
+        indicator={true}
+        sortableProps={{
+          
+        }}
+      />
+    </div>
   );
 };
 
