@@ -99,7 +99,7 @@ const EditableCell: FC<EditableCellProps> = ({
 const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState<Item[]>(addQuotesKeys(quotes));
-  const [editingKey, setEditingKey] = useState('');
+  const [editingKey, setEditingKey] = useState<Nullable<Item['key']>>(null);
   const [editingDataIndex, setEditingDataIndex] = useState<Nullable<keyof Item>>(null);
 
   const isEditing = (record: Item) => record.key === editingKey;
@@ -110,7 +110,8 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
   };
 
   const cancel = () => {
-    setEditingKey('');
+    setEditingKey(null);
+    setEditingDataIndex(null);
   };
 
   const save = async (key: Key) => {
@@ -126,12 +127,12 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
           ...row,
         });
         setData(newData);
-        setEditingKey('');
+        setEditingKey(null);
         setEditingDataIndex(null);
       } else {
         newData.push(row);
         setData(newData);
-        setEditingKey('');
+        setEditingKey(null);
         setEditingDataIndex(null);
       }
     } catch (errInfo) {
