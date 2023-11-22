@@ -12,13 +12,8 @@ export interface QuoteBase {
   tva: number;
 };
 
-
 export interface Quote extends QuoteBase {
   children?: Nullable<Quote[]>;
-};
-
-export interface QuoteWithKey extends Quote {
-  key: Key;
 };
 
 const QuotePropTypes = {

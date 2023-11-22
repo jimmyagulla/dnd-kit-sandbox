@@ -1,6 +1,6 @@
 import { TreeItems } from 'dnd-kit-sortable-tree';
 
-import { Quote, QuoteWithKey } from '../types';
+import { Quote } from '../types';
 
 export const convertQuotesToTreeItems = (quotes: Quote[]): TreeItems<Quote> => {
   return quotes.map(quote => ({
@@ -9,14 +9,6 @@ export const convertQuotesToTreeItems = (quotes: Quote[]): TreeItems<Quote> => {
     children: quote.children ? convertQuotesToTreeItems(quote.children) : []
   }));
 };
-
-export const addQuotesKeys = (quotes: Quote[]): QuoteWithKey[] => {
-  return quotes.map(quote => ({
-    ...quote,
-    children: quote.children ? addQuotesKeys(quote.children) : undefined,
-    key: quote.id
-  }));
-}
 
 interface QuoteColumn {
   label: string;

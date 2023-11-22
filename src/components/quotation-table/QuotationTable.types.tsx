@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Key, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
 import { Quote, QuotePropTypes } from '../../types';
@@ -14,18 +14,29 @@ export interface QuotationTableProps {
 export type QuotationTableColumn =
   ColumnTypes[number] & { editable?: boolean; dataIndex: string };
 
-export interface QuotationTableItem extends Quote {
-  key: string;
+export interface Item extends Quote {
+  key: Key;
 };
 
 export interface EditableCellProps {
-  title: ReactNode;
-  editable: boolean;
+  edit: (record: Partial<Item> & { key: Key}) => void;
+  editing: boolean;
+  dataIndex: string;
+  title: any;
+  inputType: 'number' | 'text';
+  record: Item;
+  index: number;
   children: ReactNode;
-  dataIndex: keyof QuotationTableItem;
-  record: QuotationTableItem;
-  handleSave: (record: QuotationTableItem) => void;
-};
+}
+
+// export interface EditableCellProps {
+//   title: ReactNode;
+//   editable: boolean;
+//   children: ReactNode;
+//   dataIndex: keyof QuotationTableItem;
+//   record: QuotationTableItem;
+//   handleSave: (record: QuotationTableItem) => void;
+// };
 
 export interface EditableRowProps {
   index: number;
