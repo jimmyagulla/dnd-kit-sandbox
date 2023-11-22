@@ -27,16 +27,9 @@ export interface EditableCellProps {
   record: Item;
   index: number;
   children: ReactNode;
+  save: (key: Key) => void;
+  cancel: () => void;
 }
-
-// export interface EditableCellProps {
-//   title: ReactNode;
-//   editable: boolean;
-//   children: ReactNode;
-//   dataIndex: keyof QuotationTableItem;
-//   record: QuotationTableItem;
-//   handleSave: (record: QuotationTableItem) => void;
-// };
 
 export interface EditableRowProps {
   index: number;
