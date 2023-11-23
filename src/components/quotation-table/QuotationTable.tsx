@@ -70,9 +70,9 @@ const EditableCell: FC<EditableCellProps> = ({
   }, [cancel, editing, record, save]);
 
   const handleClick = () => {
-    if (!editable) return;
+    // if (!editable) return;
 
-    setEditingDataIndex(dataIndex);
+    setEditingDataIndex(editable ? dataIndex : 'designation');
     edit(record);
   };
 
