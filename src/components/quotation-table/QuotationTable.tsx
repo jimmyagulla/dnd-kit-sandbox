@@ -11,13 +11,14 @@ import {
 } from '.';
 import { Nullable, Quote } from '../../types';
 
-export const addQuotesKeys = (quotes: Quote[]): Item[] => {
+export const addQuotesKeys = (quotes: Quote[], depth: number = 0): Item[] => {
   return quotes.map(quote => ({
     ...quote,
-    children: quote.children ? addQuotesKeys(quote.children) : undefined,
-    key: quote.id
+    children: quote.children ? addQuotesKeys(quote.children, depth + 1) : undefined,
+    key: quote.id,
+    depth,
   }));
-}
+};
 
 const EditableCell: FC<EditableCellProps> = ({
   editable,
@@ -33,6 +34,7 @@ const EditableCell: FC<EditableCellProps> = ({
   cancel,
   editingDataIndex,
   setEditingDataIndex,
+  depth,
   ...restProps
 }) => {
   const inputRef = useRef<InputRef>(null);
@@ -67,7 +69,7 @@ const EditableCell: FC<EditableCellProps> = ({
     }
   }, [cancel, editing, record, save]);
 
-  const handleRowClick = () => {
+  const handleClick = () => {
     if (!editable) return;
 
     setEditingDataIndex(dataIndex);
@@ -75,8 +77,8 @@ const EditableCell: FC<EditableCellProps> = ({
   };
 
   return (
-    <td {...restProps} onClick={handleRowClick}>
-      {editing ? (
+    <td {...restProps} onClick={handleClick} className={`line-depth-${depth}`}>
+      {editable && editing ? (
         <Form.Item
           name={dataIndex}
           style={{ margin: 0 }}
@@ -117,11 +119,12 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
   const save = async (key: Key) => {
     try {
       const row = (await form.validateFields()) as Item;
-
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
+
       if (index > -1) {
         const item = newData[index];
+
         newData.splice(index, 1, {
           ...item,
           ...row,
@@ -144,12 +147,12 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
     {
       title: 'Niv',
       dataIndex: 'id',
-      width: '6%',
+      width: '10%',
     },
     {
       title: 'Désignation',
       dataIndex: 'designation',
-      width: '40%',
+      width: '55%',
       editable: true,
     },
     {
@@ -166,6 +169,13 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
       editable: true,
     },
     {
+      title: 'PU HT',
+      dataIndex: 'htUnitPrice',
+      width: '10%',
+      editable: true,
+      inputType: 'number',
+    },
+    {
       title: 'Total',
       dataIndex: 'total',
       width: '10%',
@@ -180,9 +190,6 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
   ];
 
   const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
     return {
       ...col,
       onCell: (record: Item) => ({
@@ -194,6 +201,7 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
         save: save,
         editingDataIndex: editingDataIndex,
         setEditingDataIndex: setEditingDataIndex,
+        depth: record.depth,
       }),
     };
   });
@@ -210,9 +218,8 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
         dataSource={data}
         columns={mergedColumns}
         rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
+        pagination={false}
+        indentSize={0}
       />
     </Form>
   );

@@ -6,6 +6,7 @@ import { Table } from 'antd';
 
 export type EditableTableProps = Parameters<typeof Table>[0];
 export type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
+export type InputType = 'number' | 'text';
 
 export interface QuotationTableProps {
   quotes: Quote[];
@@ -13,27 +14,27 @@ export interface QuotationTableProps {
 
 export interface Item extends Quote {
   key: Key;
+  depth: number;
 };
 
 export interface EditableCellProps {
-  editable: boolean;
-  edit: (record: Partial<Item> & { key: Key}) => void;
-  editing: boolean;
-  dataIndex: string;
-  title: any;
-  inputType: 'number' | 'text';
-  record: Item;
-  index: number;
-  children: ReactNode;
-  save: (key: Key) => void;
   cancel: () => void;
+  children: ReactNode;
+  dataIndex: string;
+  edit: (record: Partial<Item> & { key: Key }) => void;
+  editable?: Nullable<boolean>;
+  editing: boolean;
   editingDataIndex: Nullable<keyof Item>;
-  setEditingDataIndex: (dataIndex: string) => void;
-}
-
-export interface EditableRowProps {
+  depth: number;
   index: number;
+  inputType: InputType;
+  record: Item;
+  save: (key: Key) => void;
+  setEditingDataIndex: (dataIndex: string) => void;
+  title: any;
 };
+
+export type QuotationTableTitleFields = Omit<Quote, 'unit' | 'tva'>;
 
 export const QuotationTablePublicPropTypes = {
   quotes: PropTypes.arrayOf(
