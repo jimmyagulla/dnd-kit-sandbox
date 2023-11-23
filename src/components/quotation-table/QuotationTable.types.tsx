@@ -24,6 +24,7 @@ export interface EditableCellProps {
   edit: (record: Partial<Item> & { key: Key }) => void;
   editable?: Nullable<boolean>;
   editing: boolean;
+  editingKey: Nullable<Item['key']>;
   editingDataIndex: Nullable<keyof Item>;
   depth: number;
   index: number;

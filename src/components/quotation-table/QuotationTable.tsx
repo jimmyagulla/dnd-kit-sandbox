@@ -32,11 +32,14 @@ const EditableCell: FC<EditableCellProps> = ({
   children,
   save,
   cancel,
+  editingKey,
   editingDataIndex,
   setEditingDataIndex,
   depth,
   ...restProps
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isParentEditing, setIsParentEditing] = useState(false);
   const inputRef = useRef<InputRef>(null);
   const inputNode = inputType === 'number'
     ? <InputNumber ref={inputRef as unknown as RefObject<HTMLInputElement>} />
@@ -47,6 +50,11 @@ const EditableCell: FC<EditableCellProps> = ({
       inputRef.current?.focus();
     }
   }, [editing, dataIndex, editingDataIndex]);
+
+  useEffect(() => {
+    setIsEditing(editingKey === record.key);
+    setIsParentEditing(record.key.toString().startsWith(String(editingKey)));
+  }, [editingKey, setIsEditing, record.key]);
 
   useEffect(() => {
     if (!editing) return;
@@ -70,14 +78,16 @@ const EditableCell: FC<EditableCellProps> = ({
   }, [cancel, editing, record, save]);
 
   const handleClick = () => {
-    // if (!editable) return;
-
     setEditingDataIndex(editable ? dataIndex : 'designation');
     edit(record);
   };
 
   return (
-    <td {...restProps} onClick={handleClick} className={`line-depth-${depth}`}>
+    <td
+      {...restProps}
+      className={`line-depth-${depth} ${isEditing ? 'current-line-edit' : isParentEditing ? 'parent-line-edit' : ''}`}
+      onClick={handleClick}
+    >
       {editable && editing ? (
         <Form.Item
           name={dataIndex}
@@ -199,6 +209,7 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
         cancel: cancel,
         edit: edit,
         save: save,
+        editingKey: editingKey,
         editingDataIndex: editingDataIndex,
         setEditingDataIndex: setEditingDataIndex,
         depth: record.depth,
