@@ -37,6 +37,12 @@ export interface EditableCellProps {
 
 export type QuotationTableTitleFields = Omit<Quote, 'unit' | 'tva'>;
 
+export enum QuotationTableDropdownActions {
+  ADD_LINE,
+  ADD_CHILD,
+  DELETE_LINE,
+};
+
 export const QuotationTablePublicPropTypes = {
   quotes: PropTypes.arrayOf(
     PropTypes.exact(QuotePropTypes).isRequired,

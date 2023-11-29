@@ -1,21 +1,46 @@
 import './QuotationTable.scss';
 
 import { FC, Key, RefObject, useEffect, useRef, useState } from 'react';
-import { Form, Input, InputNumber, InputRef, Table, Dropdown, MenuProps } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
+import {
+  Form,
+  Input,
+  InputNumber,
+  InputRef,
+  Table,
+  Dropdown,
+  MenuProps
+} from 'antd';
+import {
+  EllipsisOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  EnterOutlined
+} from '@ant-design/icons';
 
+import { Nullable, Quote, } from '../../types';
 import {
   QuotationTableProps,
   QuotationTablePropTypes,
   EditableCellProps,
   Item,
+  QuotationTableDropdownActions,
 } from '.';
-import { Nullable, Quote } from '../../types';
 
 const menuItems: MenuProps['items'] = [
   {
     key: '0',
     label: 'Ajouter une ligne',
+    icon: <PlusOutlined style={{ color: 'green' }} />,
+  },
+  {
+    key: '1',
+    label: 'Ajouter un enfant',
+    icon: <EnterOutlined style={{ color: 'blue' }} />,
+  },
+  {
+    key: '2',
+    label: 'Supprimer la ligne',
+    icon: <DeleteOutlined style={{ color: 'red' }} />,
   }
 ]
 
@@ -85,16 +110,29 @@ const EditableCell: FC<EditableCellProps> = ({
     }
   }, [cancel, editing, record, save]);
 
-  const handleClick = () => {
+  const handleClickOnCell = () => {
     setEditingDataIndex(editable ? dataIndex : 'designation');
     edit(record);
+  };
+
+  const handleDropdownClick: MenuProps['onClick'] = ({ key }) => {
+    switch (Number(key)) {
+      case QuotationTableDropdownActions.ADD_LINE:
+        return console.log('ADD_LINE');
+      case QuotationTableDropdownActions.ADD_CHILD:
+        return console.log('ADD_CHILD');
+      case QuotationTableDropdownActions.DELETE_LINE:
+        return console.log('DELETE_LINE');
+      default:
+        break;
+    }
   };
 
   return (
     <td
       {...restProps}
       className={`line-depth-${depth} ${isEditing ? 'current-line-edit' : isParentEditing ? 'parent-line-edit' : ''}`}
-      onClick={handleClick}
+      onClick={handleClickOnCell}
     >
       {editable && editing ? (
         <Form.Item
@@ -103,7 +141,7 @@ const EditableCell: FC<EditableCellProps> = ({
           rules={[
             {
               required: true,
-              message: `Please Input ${title}!`,
+              message: `Champ ${title} requis !`,
             },
           ]}
         >
@@ -112,11 +150,16 @@ const EditableCell: FC<EditableCellProps> = ({
       ) : (
         <>
           {dataIndex === 'action' ? (
-            <p></p>
-            // <Dropown menu={{ menuItems }}>
-
-            // </Dropown>
-            // <EllipsisOutlined />
+            <Dropdown
+              menu={{
+                items: menuItems,
+                onClick: handleDropdownClick,
+              }}
+              placement="bottomRight"
+              arrow
+            >
+              <EllipsisOutlined />
+            </Dropdown>
           ) : (
             <>{children}</>
           )}
