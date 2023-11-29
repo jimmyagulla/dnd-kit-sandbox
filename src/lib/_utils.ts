@@ -5,7 +5,7 @@ import { Quote } from '../types';
 export const convertQuotesToTreeItems = (quotes: Quote[]): TreeItems<Quote> => {
   return quotes.map(quote => ({
     ...quote,
-    id: quote.id.toString(),
+    id: quote.level.toString(),
     children: quote.children ? convertQuotesToTreeItems(quote.children) : []
   }));
 };
@@ -20,7 +20,7 @@ export const getQuoteColumns = (): QuoteColumn[] => {
   return [
     {
       label: "Niv",
-      prop: "id",
+      prop: "level",
       style: { width: "100px" },
     },
     {

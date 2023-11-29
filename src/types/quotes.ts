@@ -1,25 +1,21 @@
-import { Key } from "react"
 import PropTypes from 'prop-types';
 
-import { PropTypesKey, Nullable} from ".";
+import { Nullable} from ".";
 
-export interface QuoteBase {
-  id: Key;
+export interface Quote {
+  level: string;
   designation: string;
   htUnitPrice: number;
   quantity: number;
-  unit: string;
+  unit: Nullable<string>;
   total: number;
-  tva: number;
-};
-
-export interface Quote extends QuoteBase {
+  tva: Nullable<number>;
   children?: Nullable<Quote[]>;
 };
 
 const QuotePropTypes = {
-  id: PropTypesKey.isRequired,
-  children: PropTypes.any.isRequired,
+  level: PropTypes.string.isRequired,
+  children: PropTypes.array.isRequired,
   designation: PropTypes.string.isRequired,
   htUnitPrice: PropTypes.number.isRequired,
   quantity: PropTypes.number.isRequired,

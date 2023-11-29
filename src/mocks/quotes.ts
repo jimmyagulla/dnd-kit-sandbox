@@ -3,12 +3,12 @@ import { faker } from '@faker-js/faker';
 import { Quote } from '../types';
 
 export const getQuotes = (quotesNumber: number = 5, depth: number = 2): Quote[] => {
-  const generateQuote = (level: string, currentId: number, currentDepth: number): Quote => {
-    const id = currentDepth === depth ? `${level}` : `${level}.${currentId}`;
+  const generateQuote = (prevLevel: string, currentLevel: number, currentDepth: number): Quote => {
+    const level = currentDepth === depth ? `${prevLevel}` : `${prevLevel}.${currentLevel}`;
 
     if (currentDepth === 0) {
       return {
-        id,
+        level,
         children: [],
         designation: faker.lorem.words({ min: 1, max: 5 }),
         htUnitPrice: faker.number.int({ min: 1, max: 10000 }),
@@ -20,10 +20,10 @@ export const getQuotes = (quotesNumber: number = 5, depth: number = 2): Quote[] 
     }
 
     const childrenNumber = faker.number.int({ min: 0, max: 2 });
-    const children = Array.from({ length: childrenNumber }, (_, index) => generateQuote(`${id}`, currentId++, currentDepth - 1));
+    const children = Array.from({ length: childrenNumber }, (_, index) => generateQuote(`${level}`, currentLevel++, currentDepth - 1));
 
     return {
-      id,
+      level,
       children,
       designation: faker.lorem.words({ min: 1, max: 5 }),
       htUnitPrice: faker.number.int({ min: 1, max: 10000 }),

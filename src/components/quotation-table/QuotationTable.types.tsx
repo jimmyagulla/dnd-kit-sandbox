@@ -1,4 +1,4 @@
-import { Key, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
 import { Nullable, Quote, QuotePropTypes } from '../../types';
@@ -13,7 +13,7 @@ export interface QuotationTableProps {
 };
 
 export interface Item extends Quote {
-  key: Key;
+  key: string;
   depth: number;
 };
 
@@ -21,7 +21,7 @@ export interface EditableCellProps {
   cancel: () => void;
   children: ReactNode;
   dataIndex: string;
-  edit: (record: Partial<Item> & { key: Key }) => void;
+  edit: (record: Partial<Item> & { key: string }) => void;
   editable?: Nullable<boolean>;
   editing: boolean;
   editingKey: Nullable<Item['key']>;
@@ -30,7 +30,7 @@ export interface EditableCellProps {
   index: number;
   inputType: InputType;
   record: Item;
-  save: (key: Key) => void;
+  save: (key: string) => void;
   setEditingDataIndex: (dataIndex: string) => void;
   title: any;
 };

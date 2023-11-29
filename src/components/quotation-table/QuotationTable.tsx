@@ -1,7 +1,8 @@
 import './QuotationTable.scss';
 
 import { FC, Key, RefObject, useEffect, useRef, useState } from 'react';
-import { Form, Input, InputNumber, InputRef, Table } from 'antd';
+import { Form, Input, InputNumber, InputRef, Table, Dropdown, MenuProps } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
 
 import {
   QuotationTableProps,
@@ -11,11 +12,18 @@ import {
 } from '.';
 import { Nullable, Quote } from '../../types';
 
+const menuItems: MenuProps['items'] = [
+  {
+    key: '0',
+    label: 'Ajouter une ligne',
+  }
+]
+
 export const addQuotesKeys = (quotes: Quote[], depth: number = 0): Item[] => {
   return quotes.map(quote => ({
     ...quote,
     children: quote.children ? addQuotesKeys(quote.children, depth + 1) : undefined,
-    key: quote.id,
+    key: quote.level,
     depth,
   }));
 };
@@ -53,7 +61,7 @@ const EditableCell: FC<EditableCellProps> = ({
 
   useEffect(() => {
     setIsEditing(editingKey === record.key);
-    setIsParentEditing(record.key.toString().startsWith(String(editingKey)));
+    setIsParentEditing(record.key.startsWith(String(editingKey)));
   }, [editingKey, setIsEditing, record.key]);
 
   useEffect(() => {
@@ -102,7 +110,17 @@ const EditableCell: FC<EditableCellProps> = ({
           {inputNode}
         </Form.Item>
       ) : (
-        children
+        <>
+          {dataIndex === 'action' ? (
+            <p></p>
+            // <Dropown menu={{ menuItems }}>
+
+            // </Dropown>
+            // <EllipsisOutlined />
+          ) : (
+            <>{children}</>
+          )}
+        </>
       )}
     </td>
   );
@@ -112,13 +130,13 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState<Item[]>(addQuotesKeys(quotes));
   const [editingKey, setEditingKey] = useState<Nullable<Item['key']>>(null);
-  const [editingDataIndex, setEditingDataIndex] = useState<Nullable<keyof Item>>(null);
+  const [editingDataIndex, setEditingDataIndex] = useState<Nullable<keyof Item> | ''>(null);
 
   const isEditing = (record: Item) => record.key === editingKey;
 
   const edit = (record: Partial<Item> & { key: Key }) => {
-    form.setFieldsValue({ name: '', age: '', address: '', ...record });
-    setEditingKey(record.key.toString());
+    form.setFieldsValue({ ...record });
+    setEditingKey(record.key);
   };
 
   const cancel = () => {
@@ -126,28 +144,31 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
     setEditingDataIndex(null);
   };
 
+  const udpateData = (levelItems: Item[], updatedRow: Item, key: Key): Item[] => {
+    return levelItems.map(item => {
+      if (item.key === key) {
+        return {
+          ...item,
+          ...updatedRow,
+        }
+      } else if (item.children?.length) {
+        return {
+          ...item,
+          children: udpateData(item.children as Item[], updatedRow, key),
+        }
+      }
+      return item;
+    })
+  }
+
   const save = async (key: Key) => {
     try {
       const row = (await form.validateFields()) as Item;
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
+      const newData = udpateData(data, row, key);
 
-      if (index > -1) {
-        const item = newData[index];
-
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey(null);
-        setEditingDataIndex(null);
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey(null);
-        setEditingDataIndex(null);
-      }
+      setData(newData);
+      setEditingKey(null);
+      setEditingDataIndex(null);
     } catch (errInfo) {
       console.error('Validate Failed:', errInfo);
     }
@@ -156,13 +177,13 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
   const columns = [
     {
       title: 'Niv',
-      dataIndex: 'id',
+      dataIndex: 'level',
       width: '10%',
     },
     {
       title: 'Désignation',
       dataIndex: 'designation',
-      width: '55%',
+      width: '50%',
       editable: true,
     },
     {
@@ -196,6 +217,11 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
       width: '5%',
       editable: true,
       inputType: 'number',
+    },
+    {
+      title: '',
+      dataIndex: 'action',
+      width: '3%',
     }
   ];
 
