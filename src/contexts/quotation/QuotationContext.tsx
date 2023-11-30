@@ -1,12 +1,12 @@
 import { createContext, FC, useState } from 'react';
 
+import { addQuotesKeys } from '../../lib/_utils';
+import { Item, Nullable } from '../../types';
 import {
   QuotationContextProps,
   QuotationContextPropTypes,
   QuotationProviderProps,
 } from '.';
-import { addQuotesKeys } from '../../lib/_utils';
-import { Item, Nullable } from '../../types';
 
 export const QuotationContext = createContext<QuotationContextProps>({
   cancel: () => {},
