@@ -124,12 +124,6 @@ const EditableCell: FC<EditableCellProps> = ({
         <Form.Item
           name={dataIndex}
           style={{ margin: 0 }}
-          rules={[
-            {
-              required: true,
-              message: `Champ ${title} requis !`,
-            },
-          ]}
         >
           {inputNode}
         </Form.Item>
