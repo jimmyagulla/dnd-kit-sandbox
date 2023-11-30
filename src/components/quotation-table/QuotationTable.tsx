@@ -1,6 +1,13 @@
 import './QuotationTable.scss';
 
-import { FC, Key, RefObject, useEffect, useRef, useState } from 'react';
+import {
+  FC,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+  useContext
+} from 'react';
 import {
   Form,
   Input,
@@ -17,14 +24,14 @@ import {
   EnterOutlined
 } from '@ant-design/icons';
 
-import { Nullable, Quote, } from '../../types';
+import { Item } from '../../types';
 import {
   QuotationTableProps,
   QuotationTablePropTypes,
   EditableCellProps,
-  Item,
   QuotationTableDropdownActions,
 } from '.';
+import { QuotationContext } from '../../contexts';
 
 const menuItems: MenuProps['items'] = [
   {
@@ -44,34 +51,24 @@ const menuItems: MenuProps['items'] = [
   }
 ]
 
-export const addQuotesKeys = (quotes: Quote[], depth: number = 0): Item[] => {
-  return quotes.map(quote => ({
-    ...quote,
-    children: quote.children ? addQuotesKeys(quote.children, depth + 1) : undefined,
-    key: quote.level,
-    depth,
-  }));
-};
-
 const EditableCell: FC<EditableCellProps> = ({
   editable,
-  edit,
-  editing,
   dataIndex,
   title,
   inputType,
   record,
   index,
   children,
-  save,
-  cancel,
-  editingKey,
-  editingDataIndex,
-  setEditingDataIndex,
-  depth,
   ...restProps
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const {
+    edit,
+    editingKey,
+    editingDataIndex,
+    save,
+    cancel,
+  } = useContext(QuotationContext);
+  const [isEditing, setIsEditing] = useState(editingKey === record.key);
   const [isParentEditing, setIsParentEditing] = useState(false);
   const inputRef = useRef<InputRef>(null);
   const inputNode = inputType === 'number'
@@ -79,10 +76,10 @@ const EditableCell: FC<EditableCellProps> = ({
     : <Input ref={inputRef} />;
 
   useEffect(() => {
-    if (editing && dataIndex === editingDataIndex) {
+    if (isEditing && dataIndex === editingDataIndex) {
       inputRef.current?.focus();
     }
-  }, [editing, dataIndex, editingDataIndex]);
+  }, [isEditing, dataIndex, editingDataIndex]);
 
   useEffect(() => {
     setIsEditing(editingKey === record.key);
@@ -90,7 +87,7 @@ const EditableCell: FC<EditableCellProps> = ({
   }, [editingKey, setIsEditing, record.key]);
 
   useEffect(() => {
-    if (!editing) return;
+    if (!isEditing) return;
 
     const handleKeyboardEvents = (event: KeyboardEvent) => {
       switch (event.key) {
@@ -108,12 +105,10 @@ const EditableCell: FC<EditableCellProps> = ({
     return () => {
       window.removeEventListener('keydown', handleKeyboardEvents);
     }
-  }, [cancel, editing, record, save]);
+  }, [cancel, isEditing, record, save]);
 
-  const handleClickOnCell = () => {
-    setEditingDataIndex(editable ? dataIndex : 'designation');
-    edit(record);
-  };
+  const handleClickOnCell = () =>
+    edit(record, (editable ? dataIndex : 'designation') as keyof Item);
 
   const handleDropdownClick: MenuProps['onClick'] = ({ key }) => {
     switch (Number(key)) {
@@ -131,10 +126,10 @@ const EditableCell: FC<EditableCellProps> = ({
   return (
     <td
       {...restProps}
-      className={`line-depth-${depth} ${isEditing ? 'current-line-edit' : isParentEditing ? 'parent-line-edit' : ''}`}
+      className={`line-depth-${record.depth} ${isEditing ? 'current-line-edit' : isParentEditing ? 'parent-line-edit' : ''}`}
       onClick={handleClickOnCell}
     >
-      {editable && editing ? (
+      {editable && isEditing ? (
         <Form.Item
           name={dataIndex}
           style={{ margin: 0 }}
@@ -169,53 +164,11 @@ const EditableCell: FC<EditableCellProps> = ({
   );
 };
 
-const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
-  const [form] = Form.useForm();
-  const [data, setData] = useState<Item[]>(addQuotesKeys(quotes));
-  const [editingKey, setEditingKey] = useState<Nullable<Item['key']>>(null);
-  const [editingDataIndex, setEditingDataIndex] = useState<Nullable<keyof Item> | ''>(null);
-
-  const isEditing = (record: Item) => record.key === editingKey;
-
-  const edit = (record: Partial<Item> & { key: Key }) => {
-    form.setFieldsValue({ ...record });
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey(null);
-    setEditingDataIndex(null);
-  };
-
-  const udpateData = (levelItems: Item[], updatedRow: Item, key: Key): Item[] => {
-    return levelItems.map(item => {
-      if (item.key === key) {
-        return {
-          ...item,
-          ...updatedRow,
-        }
-      } else if (item.children?.length) {
-        return {
-          ...item,
-          children: udpateData(item.children as Item[], updatedRow, key),
-        }
-      }
-      return item;
-    })
-  }
-
-  const save = async (key: Key) => {
-    try {
-      const row = (await form.validateFields()) as Item;
-      const newData = udpateData(data, row, key);
-
-      setData(newData);
-      setEditingKey(null);
-      setEditingDataIndex(null);
-    } catch (errInfo) {
-      console.error('Validate Failed:', errInfo);
-    }
-  };
+const QuotationTable: FC<QuotationTableProps> = () => {
+  const {
+    dataSource,
+    form
+  } = useContext(QuotationContext);
 
   const columns = [
     {
@@ -274,14 +227,6 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
       onCell: (record: Item) => ({
         ...col,
         record,
-        editing: isEditing(record),
-        cancel: cancel,
-        edit: edit,
-        save: save,
-        editingKey: editingKey,
-        editingDataIndex: editingDataIndex,
-        setEditingDataIndex: setEditingDataIndex,
-        depth: record.depth,
       }),
     };
   });
@@ -295,7 +240,7 @@ const QuotationTable: FC<QuotationTableProps> = ({ quotes }) => {
           },
         }}
         bordered
-        dataSource={data}
+        dataSource={dataSource}
         columns={mergedColumns}
         rowClassName="editable-row"
         pagination={false}

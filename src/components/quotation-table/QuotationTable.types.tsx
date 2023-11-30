@@ -1,21 +1,14 @@
 import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
-import { Nullable, Quote, QuotePropTypes } from '../../types';
+import { Nullable, Quote, QuotePropTypes, Item } from '../../types';
 import { Table } from 'antd';
 
 export type EditableTableProps = Parameters<typeof Table>[0];
 export type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 export type InputType = 'number' | 'text';
 
-export interface QuotationTableProps {
-  quotes: Quote[];
-};
-
-export interface Item extends Quote {
-  key: string;
-  depth: number;
-};
+export interface QuotationTableProps {};
 
 export interface EditableCellProps {
   cancel: () => void;
