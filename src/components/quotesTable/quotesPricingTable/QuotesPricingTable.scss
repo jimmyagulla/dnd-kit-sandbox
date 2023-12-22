@@ -1,0 +1,44 @@
+@import '../../../scss/_base';
+
+.quotes-pricing-table {
+  width: 100%;
+  height: fit-content;
+
+  .ht-total {
+    font-size: $large-font-size;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .tva-total,
+  .ttc-total,
+  .ht-total {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ant-table-cell {
+    font-size: $x-medium-font-size;
+  }
+
+  .tva-table-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    margin-top: 15px;
+    gap: 10px;
+
+    .tva-text {
+      font-weight: bold;
+      font-size: $xx-medium-font-size;
+      color: $primary-color;
+    }
+  }
+}
+
+.ant-tooltip-inner {
+  width: 25vw;
+  color: black !important;
+  background-color: white !important;
+}

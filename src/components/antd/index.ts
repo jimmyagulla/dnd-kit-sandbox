@@ -10,3 +10,7 @@ export { default as AntdSpace }from './Space';
 export { default as AntdTableSummary }from './TableSummary';
 export { default as AntdDivider } from './Divider';
 export { default as AntdPopover } from './Popover';
+export { default as AntdInput } from './Input';
+export { default as AntdSelect } from './Select';
+export { default as AntdSelectOption } from './SelectOption';
+export { default as AntdTooltip } from './Tooltip';

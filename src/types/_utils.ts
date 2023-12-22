@@ -12,3 +12,9 @@ export interface Entity {
   id: string | number;
   updatedAt?: Nullable<string>;
 }
+
+export const PropTypesEntity = {
+  createdAt: PropTypes.string,
+  id: PropTypesKey.isRequired,
+  updatedAt: PropTypes.string,
+};

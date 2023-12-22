@@ -8,3 +8,11 @@ export const addQuotesKeys = (quotes: Quote[], depth: number = 0): Item[] => {
     depth,
   }));
 };
+
+export const currencyFormat = (num: number): string => {
+  const usFormatter = new Intl.NumberFormat('fr-FR', {
+    minimumFractionDigits: 2,
+  });
+
+  return usFormatter.format(Number(num.toFixed(2)));
+};

@@ -1,0 +1,45 @@
+@import "../../scss/_base";
+
+.twp-quote-table {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 25px;
+
+  .quote-table-save-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .quotes-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+  }
+
+  .line-depth-0 {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .line-depth-1 {
+    font-weight: bold;
+    font-style: italic;
+    color: $secondary-text-dark-color !important;
+  }
+  
+  .line-depth-2 {
+    text-decoration: underline;
+  }
+  
+  .line-depth-3 {
+    font-style: italic;
+    text-decoration: underline;
+  }
+  
+  .quote-table-save-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
