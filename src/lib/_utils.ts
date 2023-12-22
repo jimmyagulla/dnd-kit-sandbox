@@ -4,7 +4,7 @@ export const addQuotesKeys = (quotes: Quote[], depth: number = 0): Item[] => {
   return quotes.map(quote => ({
     ...quote,
     children: quote.children ? addQuotesKeys(quote.children, depth + 1) : undefined,
-    key: quote.level,
+    key: String(quote?.level),
     depth,
   }));
 };

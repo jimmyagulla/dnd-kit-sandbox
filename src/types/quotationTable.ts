@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Quote, QuotePropTypes } from '.';
 
 export interface Item extends Quote {
-  key: string;
+  key: string | number;
   depth: number;
 };
 

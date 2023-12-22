@@ -74,7 +74,7 @@ const EditableCell: FC<EditableCellProps> = ({
 
   useEffect(() => {
     setIsEditing(editingKey === record.key);
-    setIsParentEditing(record.key.startsWith(String(editingKey)));
+    setIsParentEditing(String(record.key).startsWith(String(editingKey)));
   }, [editingKey, setIsEditing, record.key]);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const EditableCell: FC<EditableCellProps> = ({
     const handleKeyboardEvents = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'Enter':
-          return save(record.key);
+          return save(String(record.key));
         case 'Escape':
           return cancel();
         default:
