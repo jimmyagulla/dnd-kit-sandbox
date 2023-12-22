@@ -1,0 +1,14 @@
+@import '../../../scss/_base';
+
+.twp-see-more {
+  border: none;
+  border-radius: $big-border-radius;
+  color: $primary-color;
+  font-size: $small-font-size;
+  height: 25px;
+  margin-top: 10px;
+
+  &, &:hover {
+    background-color: $background-primary-color;
+  }
+}

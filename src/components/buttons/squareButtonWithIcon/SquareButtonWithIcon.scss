@@ -1,0 +1,8 @@
+@import '../../../scss/_base';
+
+.twp-square-button-with-icon {
+  border: 0;
+  &:not(:disabled), &:hover, &:active {
+    background: linear-gradient(267.22deg, #2E64FF 5.37%, #25D9DC 112.94%);
+  }
+}

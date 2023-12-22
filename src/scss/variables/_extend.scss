@@ -1,0 +1,105 @@
+%twp-input {
+  border-radius: $small-border-radius;
+
+  .ant-select-arrow {
+    @extend %twp-input-suffix-icon;
+  }
+}
+
+%twp-input-suffix-icon {
+  width: auto;
+  .anticon-delete {
+    color: black;
+    font-size: $small-icon-font-size;
+  }
+  .ant-divider-vertical {
+    margin: 0;
+  }
+}
+
+%twp-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+
+%twp-list-item-extra-small {
+  border-bottom: none !important;
+  padding: 4px 0;
+
+  .ant-list-item-meta-avatar {
+    margin-right: 8px;
+  }
+}
+
+%twp-text-format {
+  white-space: pre-line;
+}
+
+%twp-box-shadow {
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2),
+    0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+}
+
+%twp-label-filter {
+  font-size: $small-font-size;
+  font-weight: 500;
+  margin-right: 10px;
+  text-transform: uppercase;
+  color: $tertiary-text-color;
+  padding-top: 1px;
+}
+
+%twp-value-filter {
+  font-weight: 400;
+}
+
+%twp-pagination {
+  .ant-pagination-item {
+    border: none;
+
+    &:not(.ant-pagination-item-active) a {
+      color: $tertiary-text-color;
+    }
+  }
+
+  .ant-pagination-prev,
+  .ant-pagination-next {
+    .ant-pagination-item-link {
+      background-color: $primary-color;
+      border: none;
+      border-radius: $small-border-radius;
+      color: $text-on-background-primary-color;
+    }
+
+    &.ant-pagination-disabled {
+      .ant-pagination-item-link {
+        background-color: $border-light-color;
+        color: $tertiary-text-color;
+      }
+    }
+  }
+}
+%twp-filters-label {
+  margin-right: 16px;
+  color: $tertiary-text-color;
+  font-weight: $lite-bold;
+  .anticon {
+    margin-right: 12px;
+    color: $secondary-color;
+  }
+}
+
+%ant-select-arrow {
+  .ant-select-arrow {
+    left: 10px;
+    font-size: $x-medium-font-size;
+    color: $primary-color;
+  }
+}
+
+%twp-table-box-shadow {
+  box-shadow: 0.1rem 0 0.9rem rgba(145, 160, 171, 0.2);
+}

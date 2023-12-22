@@ -1,0 +1,12 @@
+:host,
+#twp-root {
+  all: initial;
+}
+
+@import './variables/_borders';
+@import './variables/_colors';
+@import './variables/_text';
+
+@import './variables/_extend';
+
+@import './bootstrap_overrides';

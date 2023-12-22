@@ -1,0 +1,70 @@
+$primary-color: #3985f3;
+$primary-dark-color: #3261ff;
+$background-primary-color: #d9e8fe;
+$background-hover-primary-color: #f4f7fb;
+$background-primary-linear-gradient: linear-gradient(
+  90deg,
+  #15a0f0 0,
+  #15a0f0 17%,
+  #22dadb
+);
+$text-on-background-primary-color: #fff;
+$background-primary-dark-color: rgba(33, 150, 243, 0.29);
+$primary-border-light-color: #d9d9d9;
+
+$secondary-color: rgba(41, 191, 238, 1);
+$secondary-text-color: #323b4b;
+$secondary-text-dark-color: #0c1b31;
+$secondary-sub-text-color: #a3a3a3;
+$background-secondary-color: #e7e4e3;
+$background-secondary-light-color: #e4e4e4;
+$secondary-text-light-color: #f5f9fa;
+
+$tertiary-text-color: rgba(163, 163, 163, 1);
+$tertiary-text-light-color: #8a94a6;
+$background-tertiary-light-color: #ddd;
+$tertiary-text-dark-color: #4e5d78;
+$secondary-border-light-color: #f0f0f0;
+
+$border-light-color: #eff0f2;
+$background-light-color: #f9fafc;
+$background-dark-color: #b1c3df;
+
+$table-head-background-color: #fff;
+$table-odd-row-background-color: #fbfeff;
+
+$highlight-icon-color: #ff7f00;
+$background-highlight-color: #e7f5f9;
+
+$selected-item-background-color: #fff173;
+$text-on-selected-item-background-color: #000;
+
+$truthy-color: #52c41a;
+$falsy-color: #ff4d4f;
+$alert-color: #d68a4e;
+$disabled-color: #dddddd;
+$text-on-background-disabled-color: #888888;
+
+// BI Status
+$canceled-status-color: #868686;
+$closed-status-color: #7ad472;
+$handled-status-color: #ee7b3b;
+$planned-status-color: #fadf68;
+$started-status-color: #a95d2f;
+$suspended-status-color: #66a0cc;
+$unplanned-status-color: #e74843;
+$verified-status-color: #c3eca0;
+
+// Quotation Send
+$quotation-send-color: #52c41a;
+
+// Consumptions
+$savings-color: #52c41a;
+$overconsumptions-color: #ff4d4f;
+
+// Quotation Request
+$quotation-req-todo-color: #ff7a00ff;
+$quotation-req-completed-color: #31ac31ff;
+
+$step-item-wait-color: rgba(0, 0, 0, 0.1);
+$step-border-bloc-color: rgba(0, 0, 0, 0.125);

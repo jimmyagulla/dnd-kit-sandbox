@@ -1,0 +1,10 @@
+@import '../../../scss/_base';
+
+.twp-secondary-button {
+  border-radius: $small-border-radius !important;
+  color: $primary-color;
+
+  &, &:focus {
+    border-color: $border-light-color;
+  }
+}

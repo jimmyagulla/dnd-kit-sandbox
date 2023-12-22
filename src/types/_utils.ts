@@ -6,3 +6,9 @@ export const PropTypesKey = PropTypes.oneOfType([
   PropTypes.number.isRequired,
   PropTypes.string.isRequired,
 ]);
+
+export interface Entity {
+  createdAt?: Nullable<string>;
+  id: string | number;
+  updatedAt?: Nullable<string>;
+}

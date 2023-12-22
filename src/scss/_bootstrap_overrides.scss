@@ -1,0 +1,42 @@
+.ant-checkbox-wrapper {
+  display: inline-flex !important;
+  margin-bottom: 0 !important;
+}
+
+.twp-filters-label {
+  .anticon-info-circle {
+    font-size: $x-medium-font-size !important;
+  }
+}
+
+.ant-switch {
+  line-height: 22px !important;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: $primary-color !important;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+.twp-full-calendar th .fc-day-today a {
+  color: $text-on-background-primary-color !important;
+}
+
+sup {
+  font-size: 100% !important;
+}
+
+.twp-p3-report-summary-header-heading-title .ant-btn {
+  font-size: 14px !important;
+}
+
+.twp-document-template-editor h3.ant-typography {
+  font-size: 24px !important;
+}
+
+.twp-document-template-editor textarea {
+  font-family: inherit !important;
+}

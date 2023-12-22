@@ -1,0 +1,29 @@
+@import '../../../scss/_base';
+
+.twp-editable-cell {
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+  .icon-warning {
+    color: $falsy-color;
+    font-size: x-large;
+  }
+}
+
+.twp-editable-cell-interactive {
+  padding: 0 !important;
+
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+
+  .twp-interactive-button {
+    padding: 16px;
+    width: 100%;
+    height: max-content;
+  }
+}
+
+.ant-btn-link {
+  color: $secondary-text-dark-color !important;
+}

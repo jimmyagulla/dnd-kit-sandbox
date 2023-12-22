@@ -1,0 +1,11 @@
+@import '../../../scss/_base';
+
+.twp-table {
+  &.twp-has-adding-row .ant-table-summary {
+    display: table-header-group;
+  }
+
+  .ant-table-thead > tr > th.twp-table-actions {
+    text-align: center;
+  }
+}

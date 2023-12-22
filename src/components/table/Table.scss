@@ -1,0 +1,54 @@
+@import '../../scss/_base';
+
+.twp-table {
+  &.twp-clickable-row {
+    .ant-table-row {
+      cursor: pointer;
+    }
+  }
+
+  .twp-table-actions {
+    text-align: center;
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+    .action-btn-delete {
+      color: $primary-color;
+    }
+  }
+
+  .ant-table-tbody > tr > td {
+    font-size: $x-medium-font-size;
+    white-space: pre-line;
+  }
+
+  .ant-table-thead {
+    .ant-table-cell {
+      background-color: $table-head-background-color;
+      border-top: 1px solid $border-light-color;
+      color: $tertiary-text-color;
+      font-weight: $lite-bold;
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  .ant-pagination {
+    @extend %twp-pagination;
+  }
+
+  .ant-table-footer {
+    .twp-columns-panel-footer {
+      justify-content: end;
+      width: 100%;
+    }
+  }
+
+  & + .twp-see-more {
+    display: block;
+    margin: 5px auto;
+  }
+}

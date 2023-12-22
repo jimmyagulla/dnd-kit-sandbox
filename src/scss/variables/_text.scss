@@ -1,0 +1,25 @@
+// Overwrite all reset's font-size
+:host,
+#twp-root {
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+}
+
+// font-size
+$small-icon-font-size: 0.9em;
+$small-font-size: 0.8em;
+$medium-font-size: 0.86em;
+$x-medium-font-size: 0.95em;
+$xx-medium-font-size: 1.1em;
+$xxx-medium-font-size: 1.2em;
+$large-icon-font-size: 1.4em;
+$large-font-size: 1.3em;
+$x-large-font-size: 1.6em;
+$x-large-icon-font-size: 1.7em;
+$xx-large-icon-font-size: 2em;
+$xxx-large-icon-font-size: 2.5em;
+
+// font-weight
+$lite-bold: 500;
+
+$large-step-icon-font-size: 1.5rem;
