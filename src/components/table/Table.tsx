@@ -11,7 +11,7 @@ import {
 } from 'react';
 
 import { Entity } from '../../types';
-import { putElementsFirst } from '../../utils/ArrayUtils';
+import { putElementsFirst } from '../../utils';
 import {
   ActionButtonsProps,
   Actions,
@@ -61,6 +61,7 @@ function Table<T extends Entity, EditingForm = void>({
   editingRecordId,
   customForm,
   interactive,
+  customActionButtons,
   ...antdTableProps
 }: TableProps<T, EditingForm>): ReactElement {
   const [displayCount, setDisplayCount] = useState(limit);
@@ -153,7 +154,7 @@ function Table<T extends Entity, EditingForm = void>({
 
       if (onEdit) {
         actionButtonsFromProps.push({
-          children: 'Éditer',
+          children: customActionButtons?.editButton || 'Éditer',
           disabled: isRowEditable ? !isRowEditable(record) : false,
           onClick: (): void => {
             setIsCurrentAdding(false);
@@ -166,7 +167,7 @@ function Table<T extends Entity, EditingForm = void>({
 
       if (onDelete) {
         actionButtonsFromProps.push({
-          children: 'Supprimer',
+          children: customActionButtons?.deleteButton || 'Supprimer',
           disabled: isRowDeletable ? !isRowDeletable(record) : false,
           onClick: (): void => {
             onDelete(record);
@@ -289,14 +290,18 @@ function Table<T extends Entity, EditingForm = void>({
       const record = dataSource?.find((data: any) => data.id === editingEntityId);
 
       (async (): Promise<void> => {
+        const isPressingCtrl = event.ctrlKey || event.metaKey || event.shiftKey;
+
         switch (event.key) {
           case 'Escape':
             cancelEdit();
             break;
           case 'Enter':
+            if (isPressingCtrl) return;
+
             setEditingEntityId(undefined);
             setIsCurrentAdding(false);
-
+            
             return onSave(record);
           default:
             break;

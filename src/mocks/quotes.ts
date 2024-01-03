@@ -8,6 +8,7 @@ export const getQuotes = (quotesNumber: number = 5, depth: number = 2): Quote[] 
 
     if (currentDepth === 0) {
       return {
+        id: 0,
         level,
         children: [],
         designation: faker.lorem.words({ min: 1, max: 5 }),
@@ -23,6 +24,7 @@ export const getQuotes = (quotesNumber: number = 5, depth: number = 2): Quote[] 
     const children = Array.from({ length: childrenNumber }, (_, index) => generateQuote(`${level}`, currentLevel++, currentDepth - 1));
 
     return {
+      id: 0,
       level,
       children,
       designation: faker.lorem.words({ min: 1, max: 5 }),

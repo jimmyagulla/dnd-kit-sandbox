@@ -11,6 +11,7 @@ import {
   AntdTableProps,
 } from '..';
 import { EditableCellProps } from '.';
+import { ReactNode } from 'react';
 
 export type EntityActionsProps<T> = Omit<ActionsProps, 'actionButtonsProps'> & {
   actionButtonsProps?: Nullable<(record: T) => ActionButtonsProps>;
@@ -48,6 +49,16 @@ export type TableColumnWithRequiredKeyProps<
   children?: Nullable<TableColumnWithRequiredKeyWithoutChildrenProps<T>[]>;
 };
 
+export type CustomActionButtons = {
+  editButton?: ReactNode;
+  deleteButton?: ReactNode;
+}
+
+export const CustomActionButtonsPropTypes = {
+  editButton: PropTypes.node,
+  deleteButton: PropTypes.node,
+};
+
 export type TableProps<T extends Entity, EditingForm = void> = Omit<
   AntdTableProps<T>,
   'columns'
@@ -56,6 +67,7 @@ export type TableProps<T extends Entity, EditingForm = void> = Omit<
   cloningRowsId?: T['id'][];
   columns?: TableColumnProps<T, EditingForm>[];
   customForm?: FormInstance<Record<string | number, EditingForm>>;
+  customActionButtons?: Nullable<CustomActionButtons>;
   editingRecordId?: Nullable<Entity['id']>;
   emptyProps?: Nullable<Partial<AntdEmptyProps>>;
   hasFooter?: Nullable<boolean>;
@@ -81,6 +93,7 @@ export const TablePublicPropTypes = {
   cloningRowsId: PropTypes.arrayOf(PropTypesKey.isRequired),
   columns: PropTypes.arrayOf(PropTypes.exact(TableColumnPropTypes).isRequired),
   customForm: PropTypes.any,
+  customActionButtons: CustomActionButtonsPropTypes,
   editingRecordId: PropTypesKey,
   emptyProps: PropTypes.object,
   hasFooter: PropTypes.bool,

@@ -14,3 +14,4 @@ export { default as AntdInput } from './Input';
 export { default as AntdSelect } from './Select';
 export { default as AntdSelectOption } from './SelectOption';
 export { default as AntdTooltip } from './Tooltip';
+export { default as AntdTextArea } from './TextArea';

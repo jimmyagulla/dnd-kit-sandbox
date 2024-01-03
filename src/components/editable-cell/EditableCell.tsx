@@ -99,7 +99,7 @@ const EditableCell: FC<EditableCellProps> = ({
   }, [cancel, isEditing, record, save]);
 
   const handleClickOnCell = () =>
-    edit(record, (editable ? dataIndex : 'designation') as keyof Item);
+    edit(record as any, (editable ? dataIndex : 'designation') as keyof Item);
 
   const handleDropdownClick: MenuProps['onClick'] = ({ key }) => {
     switch (Number(key)) {

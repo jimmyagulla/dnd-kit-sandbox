@@ -6,6 +6,7 @@ import { currencyFormat } from '../../lib';
 import {
   AntdFormItem,
   AntdInput,
+  AntdTextArea,
   AntdSelect,
   AntdSelectOption,
   TableColumnProps,
@@ -22,14 +23,26 @@ const renderNumber = (value: Key, showCurrency = true): ReactNode => {
   );
 };
 
-const tvaRender = (tva: Key, vats: Vat[]): ReactNode => {
-  console.log('tva: ', tva, 'vats: ', vats);
+const tvaRender = (record: Quote, vats: Vat[]): ReactNode => {
+  if (!record?.tva || record.children?.length) {
+    return null;
+  }
 
-  if (!tva) return null;
-
-  const vat = vats.find((x) => String(x.id) === String(tva));
+  const vat = vats.find((x) => String(x.id) === String(record?.tva));
 
   return vat ? <div>{`[${vat.code}] ${vat.tva}%`}</div> : null;
+};
+
+const designationRender = (quotation: string): ReactNode => {
+  return <div style={{ whiteSpace: 'pre-line' }}>{quotation}</div>;
+};
+
+const unitRender = (record: Quote): ReactNode => {
+  if (!record.unit || record.children?.length) {
+    return null;
+  }
+
+  return <div>{record.unit}</div>;
 };
 
 export const quotesTableColumns = (
@@ -48,13 +61,18 @@ export const quotesTableColumns = (
       key: 'designation',
       title: 'Désignation',
       width: 300,
+      render: designationRender,
       editingRender: (quote): ReactNode => {
         return (
           <AntdFormItem
             initialValue={quote?.designation}
             name={[quote?.level || '', 'designation']}
           >
-            <AntdInput />
+            <AntdTextArea
+              defaultValue={quote?.designation || ''}
+              onChange={(e): void => form.setFieldValue([quote?.level || '', 'designation'], e.target.value)}
+              rows={1}
+            />
           </AntdFormItem>
         );
       },
@@ -106,6 +124,7 @@ export const quotesTableColumns = (
           </AntdFormItem>
         );
       },
+      render: (_, record) => unitRender(record),
     },
     {
       dataIndex: 'htUnitPrice',
@@ -160,7 +179,7 @@ export const quotesTableColumns = (
           </AntdFormItem>
         );
       },
-      render: (tva: Key): ReactNode => tvaRender(tva, vats),
+      render: (_, record): ReactNode => tvaRender(record, vats),
     },
   ];
 };

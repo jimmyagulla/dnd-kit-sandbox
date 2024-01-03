@@ -7,7 +7,7 @@ import {
   Quote,
   QuoteEditingForm,
 } from '../../types';
-import { AntdUseForm, PrimaryButton, QuotesPricingTable, Table } from '..';
+import { AntdDeleteOutlinedIcon, AntdEditOutlinedIcon, AntdSpace, AntdUseForm, CustomActionButtons, PrimaryButton, QuotesPricingTable, Table } from '..';
 import {
   getQuoteTotal,
   quotesTableColumns,
@@ -20,7 +20,30 @@ const QuotesTable: FC<QuotesTableProps> = ({
   getAutocompleteUrl,
   updateQuotationUrl,
 }) => {
-  const [dataSource, setDataSource] = useState<Quote[]>([]);
+  const [dataSource, setDataSource] = useState<Quote[]>([
+    {
+      id: '1',
+      designation: 'Prestation de service',
+      level: '1',
+      htUnitPrice: 100,
+      quantity: 1,
+      total: 100,
+      unit: 'u',
+      tva: '0',
+      children: [
+        {
+          id: '2',
+          designation: 'Prestation de service',
+          level: '1.1',
+          htUnitPrice: 100,
+          quantity: 1,
+          total: 100,
+          unit: 'u',
+          tva: '0',
+        },
+      ],
+    },
+  ]);
   const [form] = AntdUseForm<Record<Key, QuoteEditingForm>>();
   const [units, setUnits] = useState<Nullable<string[]>>(null);
   const [vats, setVats] = useState<Nullable<Vat[]>>(null);
@@ -95,6 +118,23 @@ const QuotesTable: FC<QuotesTableProps> = ({
     initVats();
   }, [getAutocompleteUrl]);
 
+  const quotesTableActionButtons = (): CustomActionButtons => {
+    return {
+      editButton: (
+        <AntdSpace>
+          <AntdEditOutlinedIcon />
+          <span>Modifier</span>
+        </AntdSpace>
+      ),
+      deleteButton: (
+        <AntdSpace>
+          <AntdDeleteOutlinedIcon style={{ color: 'red' }} />
+          <span>Supprimer</span>
+        </AntdSpace>
+      )
+    }
+  }
+
   return (
     <div className="twp-quote-table">
       <div className="quote-table-save-button-wrapper">
@@ -106,6 +146,7 @@ const QuotesTable: FC<QuotesTableProps> = ({
             bordered
             columns={quotesTableColumns(form, units, vats)}
             customForm={form}
+            customActionButtons={quotesTableActionButtons()}
             dataSource={dataSource}
             emptyProps={{
               description: 'Aucune ligne de devis',
@@ -115,6 +156,7 @@ const QuotesTable: FC<QuotesTableProps> = ({
             isAdding
             onAdd={onAdd}
             onEdit={onEdit}
+            onDelete={onDelete}
             pagination={false}
             rowClassName={(): string => {
               return `line-depth-1`;
