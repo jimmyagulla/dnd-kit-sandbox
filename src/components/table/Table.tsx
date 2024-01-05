@@ -184,15 +184,7 @@ function Table<T extends Entity, EditingForm = void>({
         />
       );
     },
-    [
-      actionProps,
-      isDisabledBtn,
-      form,
-      isRowDeletable,
-      isRowEditable,
-      onDelete,
-      onEdit,
-    ],
+    [actionProps, onEdit, onDelete, isDisabledBtn, customActionButtons?.editButton, customActionButtons?.deleteButton, isRowEditable, form, isRowDeletable],
   );
 
   const onCellClick = useCallback((record: T): void => {

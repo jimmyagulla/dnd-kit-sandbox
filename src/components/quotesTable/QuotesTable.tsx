@@ -15,35 +15,13 @@ import {
   QuotesTablePropTypes,
   Vat,
 } from '.';
+import { quotes } from '../../mocks/quotes';
 
 const QuotesTable: FC<QuotesTableProps> = ({
   getAutocompleteUrl,
   updateQuotationUrl,
 }) => {
-  const [dataSource, setDataSource] = useState<Quote[]>([
-    {
-      id: '1',
-      designation: 'Prestation de service',
-      level: '1',
-      htUnitPrice: 100,
-      quantity: 1,
-      total: 100,
-      unit: 'u',
-      tva: '0',
-      children: [
-        {
-          id: '2',
-          designation: 'Prestation de service',
-          level: '1.1',
-          htUnitPrice: 100,
-          quantity: 1,
-          total: 100,
-          unit: 'u',
-          tva: '0',
-        },
-      ],
-    },
-  ]);
+  const [dataSource, setDataSource] = useState<Quote[]>(quotes);
   const [form] = AntdUseForm<Record<Key, QuoteEditingForm>>();
   const [units, setUnits] = useState<Nullable<string[]>>(null);
   const [vats, setVats] = useState<Nullable<Vat[]>>(null);
