@@ -53,6 +53,7 @@ export const quotesTableColumns = (
   return [
     {
       dataIndex: 'level',
+      key: 'level',
       title: 'Niv',
       width: 50,
     },
@@ -70,7 +71,7 @@ export const quotesTableColumns = (
           >
             <AntdTextArea
               defaultValue={quote?.designation || ''}
-              onChange={(e): void => form.setFieldValue([quote?.level || '', 'designation'], e.target.value)}
+              // onChange={(e): void => form.setFieldValue([quote?.level || '', 'designation'], e.target.value)}
               rows={1}
             />
           </AntdFormItem>

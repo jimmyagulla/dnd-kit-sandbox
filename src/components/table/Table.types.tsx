@@ -11,7 +11,7 @@ import {
   AntdTableProps,
 } from '..';
 import { EditableCellProps } from '.';
-import { ReactNode } from 'react';
+import { Key, ReactNode } from 'react';
 
 export type EntityActionsProps<T> = Omit<ActionsProps, 'actionButtonsProps'> & {
   actionButtonsProps?: Nullable<(record: T) => ActionButtonsProps>;
@@ -70,6 +70,7 @@ export type TableProps<T extends Entity, EditingForm = void> = Omit<
   customActionButtons?: Nullable<CustomActionButtons>;
   editingRecordId?: Nullable<Entity['id']>;
   emptyProps?: Nullable<Partial<AntdEmptyProps>>;
+  findRecordMethod?: Nullable<(id: Key, dataSource: readonly T[] | undefined) => T | undefined>;
   hasFooter?: Nullable<boolean>;
   interactive?: Nullable<boolean>;
   isAdding?: Nullable<boolean>;
@@ -96,6 +97,7 @@ export const TablePublicPropTypes = {
   customActionButtons: CustomActionButtonsPropTypes,
   editingRecordId: PropTypesKey,
   emptyProps: PropTypes.object,
+  findRecordMethod: PropTypes.func,
   hasFooter: PropTypes.bool,
   interactive: PropTypes.bool,
   isAdding: PropTypes.bool,

@@ -9,8 +9,6 @@ const generateQuote = (prevLevel, currentLevel, currentDepth) => {
       ? `${prevLevel}`
       : `${prevLevel}.${currentLevel}`;
 
-      console.log('level: ', level);
-
   let children = null;
 
   if (currentDepth) {
@@ -24,7 +22,7 @@ const generateQuote = (prevLevel, currentLevel, currentDepth) => {
     id: level,
     level,
     children,
-    designation: faker.lorem.words({ min: 1, max: 5 }),
+    designation: faker.lorem.words(),
     htUnitPrice: faker.datatype.number({ min: 1, max: 10000 }),
     quantity: faker.datatype.number({ min: 1, max: 10 }),
     unit: faker.lorem.word(),

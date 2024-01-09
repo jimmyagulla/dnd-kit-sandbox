@@ -54,6 +54,44 @@ const QuotesTable: FC<QuotesTableProps> = ({
     setDataSource(newDataSource);
   };
 
+  const udpateData = (levelItems: Quote[], updatedRow: Quote, key: string): Quote[] => {
+    return levelItems.map(item => {
+      if (item.level === key) {
+        return {
+          ...item,
+          ...updatedRow,
+        }
+      } else if (item.children?.length) {
+        return {
+          ...item,
+          children: udpateData(item.children as Quote[], updatedRow, key),
+        }
+      }
+      return item;
+    })
+  };
+
+  const findRecordMethod = (id: Key, dataSource: readonly Quote[] | undefined): Quote | undefined => {
+    // Recursive function to search in depth
+    const findInDepth = (quotes: readonly Quote[] | undefined): Quote | undefined => {
+      if (!quotes) return undefined;
+
+      for (let quote of quotes) {
+        if (quote.id === id) {
+          return quote;
+        }
+        if (quote.children && quote.children.length > 0) {
+          const found = findInDepth(quote.children);
+          if (found) return found;
+        }
+      }
+      return undefined;
+    }
+  
+    // Start the recursive search
+    return findInDepth(dataSource);
+  };
+
   const onEdit = (formValues: QuoteEditingForm, record: Quote): void => {
     if (isEmpty(formValues)) {
       onDelete(record);
@@ -61,16 +99,14 @@ const QuotesTable: FC<QuotesTableProps> = ({
       return;
     }
 
-    const newDataSource: Quote[] = [...dataSource];
-    const index = newDataSource.findIndex((quote) => quote.id === record.id);
-    const newQuote: Quote = {
-      ...newDataSource[index],
+    const updatedRow: Quote = {
+      ...record,
       ...formValues,
       total: getQuoteTotal(formValues as Quote),
     };
 
-    newDataSource[index] = newQuote;
-    setDataSource(newDataSource);
+    const newData = udpateData(dataSource, updatedRow, String(record.level));
+    setDataSource(newData);
   };
 
   const onSaveQuotation = useCallback((): void => {
@@ -129,6 +165,7 @@ const QuotesTable: FC<QuotesTableProps> = ({
             emptyProps={{
               description: 'Aucune ligne de devis',
             }}
+            findRecordMethod={findRecordMethod}
             indentSize={0}
             interactive
             isAdding

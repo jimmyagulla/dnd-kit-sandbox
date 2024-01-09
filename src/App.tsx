@@ -9,6 +9,11 @@ function App() {
         getAutocompleteUrl="getAutocomplete"
         updateQuotationUrl="updateQuotation"
       />
+
+      {/* <div style={{ paddingTop: 100 }} />
+      <QuotationProvider form={form} quotes={quotes}>
+        <QuotationTable/>
+      </QuotationProvider> */}
     </div>
   );
 }

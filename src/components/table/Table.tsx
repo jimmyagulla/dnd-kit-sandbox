@@ -62,6 +62,7 @@ function Table<T extends Entity, EditingForm = void>({
   customForm,
   interactive,
   customActionButtons,
+  findRecordMethod,
   ...antdTableProps
 }: TableProps<T, EditingForm>): ReactElement {
   const [displayCount, setDisplayCount] = useState(limit);
@@ -279,7 +280,9 @@ function Table<T extends Entity, EditingForm = void>({
 
   useEffect(() => {
     const handleKeyboardEvents = (event: KeyboardEvent): void => {
-      const record = dataSource?.find((data: any) => data.id === editingEntityId);
+      const record = findRecordMethod
+        ? findRecordMethod(String(editingEntityId), dataSource)
+        : dataSource?.find((data: any) => data.id === editingEntityId);
 
       (async (): Promise<void> => {
         const isPressingCtrl = event.ctrlKey || event.metaKey || event.shiftKey;

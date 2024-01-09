@@ -5,7 +5,7 @@ import { Form, Table } from 'antd';
 
 import { QuotationContext } from '../../contexts';
 import { Item } from '../../types';
-import { EditableCell } from '..';
+import { EditableCell } from '../editable-cell';
 import {
   QuotationTableProps,
   QuotationTablePropTypes,
