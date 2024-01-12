@@ -9,7 +9,6 @@ export type AddingRowProps<T extends Entity, AddingForm> = {
 };
 
 export const AddingRowPropTypes = {
-  columns: PropTypes.arrayOf(PropTypes.exact(TableColumnPropTypes).isRequired)
-    .isRequired,
+  columns: PropTypes.any,
   hasRowSelection: PropTypes.bool.isRequired,
 };
